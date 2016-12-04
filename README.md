@@ -12,7 +12,13 @@ These are a few command line snippets for managing a docker host
 `docker rmi $(docker images | grep "^<none>" | awk '{print $3}')`
 
 ### Windows
-`((docker images | Select-String -Pattern "none" -List -SimpleMatch)) | %{ $a=($_ -split '\s+')[2]; $b=($_ -split '\s+')[0]; docker rmi $a; }`
+* `((docker images | Select-String -Pattern "none" -List -SimpleMatch)) | %{ $a=($_ -split '\s+')[2]; $b=($_ -split '\s+')[0]; docker rmi $a; }`
+* For windows 10 users, cannot run both VMWare and Docker due to Hyper-V compatability issues. It is workable to multi-boot one with Hyper-V for Docker and one without for VMWare. Note: this must be run from command prompt with admin rights (powershell does not work!) Credit: Thanks to Scott Hanselman at this site for this snippet:  http://www.hanselman.com/blog/SwitchEasilyBetweenVirtualBoxAndHyperVWithABCDEditBootEntryInWindows81.aspx
+
+        C:\>bcdedit /copy {current} /d "No Hyper-V" 
+        The entry was successfully copied to {ff-23-113-824e-5c5144ea}. 
+        C:\>bcdedit /set {ff-23-113-824e-5c5144ea} hypervisorlaunchtype off 
+        The operation completed successfully.
 
 ## Builds
 Shortcuts and patterns for building smaller images
