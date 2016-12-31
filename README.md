@@ -9,7 +9,12 @@ These are a few command line snippets for managing a docker host
 `<none>` can be left behind. Here are some command line snippets for recovering lost space.
 
 ### Linux
-`docker rmi $(docker images | grep "^<none>" | awk '{print $3}')`
+Docker maintenance for storage
+
+        `docker rmi $(docker images | grep "^<none>" | awk '{print $3}')`
+        docker rm $(docker ps -q -f 'status=exited')
+        docker rmi $(docker images -q -f "dangling=true")
+        docker volume rm $(docker volume ls -qf dangling=true)
 
 ### Windows
 * `((docker images | Select-String -Pattern "none" -List -SimpleMatch)) | %{ $a=($_ -split '\s+')[2]; $b=($_ -split '\s+')[0]; docker rmi $a; }`
