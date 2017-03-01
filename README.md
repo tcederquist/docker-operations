@@ -3,6 +3,7 @@ These are a few command line snippets for managing a docker host
 
 * [Clean up](#clean-up)
 * [Build Patterns](#builds)
+* [Stats from curl](#stats)
 
 ## Clean-up
 `Docker build` does not always clean up old images. If you build the same release over and over, artifacts and orphans with repository
@@ -75,3 +76,9 @@ Jython purposed container.
               && java -jar /usr/share/llf/ermasLogicRestPython_lib/jython-standalone-2.7.1b3.jar setup.py install \
               && rm -fR /usr/share/extras \
               && apt-get clean
+              
+## Stats
+Using curl and unix sockets to connect local with the following sample:
+
+        curl --unix-socket /var/run/docker.sock http:/containers/e152a2f6b469/stats?stream=0
+        stream is optional 1=continue polling, 0=pull once and close connection
