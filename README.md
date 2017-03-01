@@ -80,5 +80,8 @@ Jython purposed container.
 ## Stats
 Using curl and unix sockets to connect local with the following sample:
 
+        docker stats  {optional conatiner list space dlm}
+           Runs like 'watch' and privides all container high level stats
+           
         curl --unix-socket /var/run/docker.sock http:/containers/e152a2f6b469/stats?stream=0
         stream is optional 1=continue polling, 0=pull once and close connection
