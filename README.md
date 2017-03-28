@@ -4,6 +4,7 @@ These are a few command line snippets for managing a docker host
 * [Clean up](#clean-up)
 * [Build Patterns](#builds)
 * [Stats from curl](#stats)
+* [Repair](#repair)
 
 ## Clean-up
 `Docker build` does not always clean up old images. If you build the same release over and over, artifacts and orphans with repository
@@ -85,3 +86,19 @@ Using curl and unix sockets to connect local with the following sample:
            
         curl --unix-socket /var/run/docker.sock http:/containers/e152a2f6b469/stats?stream=0
         stream is optional 1=continue polling, 0=pull once and close connection
+
+## Repair
+When things go badly...
+### Out of space errors - corrupted storage
+After expanding storage and need to let docker know that is 'okay' to start working again. The path to your docker installation which may be /var/lib/docker instead of my case /docker.
+
+        service docker stop
+        thin_check /docker/devicemapper/devicemapper/metadata
+        thin_check --clear-needs-check-flag /docker/devicemapper/devicemapper/metadata
+### Find the storage location of a docker container - when all else fails and you just need to get the content and start over! Use your container name, my was just a simple 'ermMysql' for example. Use your folder location (ie: /var/lib/docker instead of my /docker)
+
+        docker inspect ermMysql | grep Source
+        cd "/docker/volumes/380b947b222cb31cf8c09ba46a8fde736b713e0272cf85323196633cea94cd0c/_data"
+### Copy files with archive settings to get the 999 docker uses for example (when you copy stuff back into a new container (yes this is hacking it a bit!)
+
+        rsync -avzp /docker/volumes/380b947b222cb31cf8c09ba46a8fde736b713e0272cf85323196633cea94cd0c/_data/* /home/you/.
