@@ -2,6 +2,7 @@
 These are a few command line snippets for managing a docker host
 
 * [Clean up](#clean-up)
+* [Logs](#logs)
 * [Build Patterns](#builds)
 * [Stats from curl](#stats)
 * [Repair](#repair)
@@ -9,6 +10,13 @@ These are a few command line snippets for managing a docker host
 ## Clean-up
 `Docker build` does not always clean up old images. If you build the same release over and over, artifacts and orphans with repository
 `<none>` can be left behind. Here are some command line snippets for recovering lost space.
+
+## Logs
+Where are my logs? No need to redirect from docker logs yourcontainer, here you can see where the logs are written to disk:
+
+      docker inspect --format='{{.LogPath}}' yourcontainer
+      
+Thanks to: https://stackoverflow.com/questions/41144589/how-to-redirect-docker-logs-to-a-single-file
 
 ### Linux
 Docker maintenance for storage
